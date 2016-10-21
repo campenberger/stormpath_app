@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script type="text/javascript">
+        var dojoConfig={
+            async: true
+        };
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.11.2/dojo/dojo.js"></script>
+    <title>CAS Test App - {% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+<body style="background-color: {{background_color}};">
+    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2016 by <a href="http://lexington-solutions.com/">Lexington-Solutions.com</a>.
+        {% endblock %}
+    </div>
+</body>
+</html>

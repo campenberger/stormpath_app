@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Test Client</h2>
+<form action="{{index_url}}" method="POST" id="index_form">
+	<table border="0">
+		<tr>
+			<td>Current Organization:</td>
+			<td><select name='tenant_select' id='tenant_select'>
+				{% for o in organizations %}
+					<option value="{{o.nameKey}}"
+						{% if o.nameKey==current_org_nameKey %}
+							selected
+						{% endif %} 
+					>{{o.name}}</option>
+				{% endfor %}
+			</select></td>
+		</tr>
+		<tr>
+			<td>public key:</td><td>{{current_org.custom_data.publicKey}}</td>
+		</tr>
+		<tr>
+			<td colspan="2"><hr><td>
+		</tr>
+		<tr>
+			<td>HREF:</td><td>{{user.href}}</td>
+		</tr>
+		<tr>
+			<td>Username:</td><td>{{user.username}}</td>
+		</tr>
+		<tr>
+			<td>EMail:</td><td>{{user.email}}</td>
+		</tr>
+		<tr>
+			<td>Name:</td><td>{{user.full_name}}</td>
+		</tr>
+		<tr>
+			<td>Tenannt:</td><td>{{user.tenant}}</td>
+		</tr>
+		<tr>
+			<td>Permissions:</td>
+			<td><ul>
+				{% for p in permissions %}
+					<li>{{p}}</li>
+				{% endfor %}
+			</ul></td>
+		</tr>
+		<tr>
+			<td>Token:</td>
+			<td><pre><code>{{token}}</code></pre></td>
+		</tr>
+	</table>
+	<a href="{{logout_url}}">Logout</a>
+	&nbsp;
+	<a href="{{token_test_url}}">Token Test</a>
+</form>
+<script>
+	require(["dojo/dom","dojo/on","dojo/domReady!"],function(dom,on){
+		console.log("dom is ready");
+		on(dom.byId('tenant_select'),'change',function(evt){
+			console.log('Tenant changed',arguments);
+			dom.byId('index_form').submit();
+		});
+	});
+</script>
+{% endblock %}

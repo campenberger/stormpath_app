@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Token Test</h2>
+<table border="0">
+	<tr>
+		<td>User name:</td><td>{{token.account.username}}</td>
+	</tr>
+	<tr>
+		<td>Current Time:</td><td>{{current_time}}</td>
+	</tr>
+	<tr>
+		<td>Expiration:</td><td>{{expiration_time}}</td>
+	</tr>
+	<tr>
+		<td>Scopes:</td><td>{{", ".join(token.scopes)}}</td>
+	</tr>
+</table>
+<a href="{{logout_url}}">Logout</a>
+	&nbsp;
+	<a href="{{index_url}}">Index</a>
+{% endblock %}

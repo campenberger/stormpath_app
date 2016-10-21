@@ -1,0 +1,4 @@
+[stormpath]
+; rename to config.ini and add stormpath credentials here
+api_key_id=
+api_key_secret=

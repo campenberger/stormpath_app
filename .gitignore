@@ -1,0 +1,5 @@
+*.pyc
+env
+todo.txt
+*.sublime-*
+config.ini
