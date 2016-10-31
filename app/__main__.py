@@ -303,6 +303,7 @@ register_singleton('stormpathApp',_NewApp)
 register_singleton('requestsSession', requests.Session)
 
 # todo: add read me
+# move code into __init__.py
 # todo: push to github
 
 if __name__ == '__main__':

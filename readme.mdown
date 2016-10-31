@@ -1,0 +1,65 @@
+This is a little test app for the Stormpath (www.stormpath.com) authentication and authorization service. The main goals were to evaluate
+
+* multitenancy
+* fine grained permissions
+* oauth tokens
+
+The app is based on flask and the Flask-Stormpath package. It allows you to log in, display a few details about the user and allows to issue and renew an oauth token.
+
+# Stormpath Configuration
+
+To demonstrate a number of things should be set up in Stormpath
+
+* Get your API key from the profile
+* Create an application and enable oauth under policies
+  * make the access token ttl 10 seconds
+  * and the refresh token ttl 7 days
+* Create 2 directories, one for your company (myCompanyDir) and one for a customer org (ourCustomerDir). Both directories should be of the cloud type.
+* Create two organization, one for each organiation: myCompany and ourCustomer
+* Associate the myCompanyDir with the myCompany organization under Account Stores
+* Associate the myCompanyDir and the ourCustomerDir with the ourCustomer org. myCompanyDir should have priorty 0 and ourCustomerDir priorty 1
+* Add an attribute "publicKey" to the custom data of each organiation, i.e. ```{ "publicKey": "pk-myCompany"}```
+* Create a few test users in each directory
+* Add individual permissions for some of the users in the custom data section:
+
+   ```
+   {
+      "permissions": [
+        "personal-p1",
+        "personal-p2"
+      ]
+    }
+    ```
+
+* Create a few groups in each directory, associate the users with the groups and also add permissions in the groups custom data, like before
+
+
+# Running the App
+
+* Install redis on your machine
+* ```pip install -r freeze.txt```
+* Make copy of config.ini.sample and name it config.ini. Enter your API key there
+* Run the app with ```PYTHONPATH=. python -m app```
+* You should get the login page under http://localhost:5000/
+
+# Things to Try
+
+User profile:
+
+* Login with one user from your company (myCompanyDir)
+* You should see that the user has access to both organizations (myCompany and ourCustomer) in the 'Current Organization' drop down at the top of the page.
+* Depending on which organiations selected in the drop down a different public key should be displayed
+* Verify some of the users attrbiutes
+* Verify that the user has the aggreagate permissions from all the groups he is a member of and his individual permissions
+* Login with a user from ourCustomer. The user should only have access to the customer organization
+
+Token:
+
+* Click on the Token Test link
+* The token expiration should be 10 seconds from now (see token ttl above)
+* Refresh the page several times within the 10 seconds. The expiration should not change. 
+* After a 10 seconds a new token with a different expiration time should be issued
+* Go in the stormpath API and delete the refresh token. When refreshing the token page, the user will be logged out.
+
+Other:
+* Try the "Forgot Password?" link on the login page
